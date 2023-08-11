@@ -7,7 +7,6 @@ function setupCarousel() {
     const slideWidth = products[0].offsetWidth;
     
     let currentIndex = 0;
-    let isAutoPlay = true;
     let autoPlayInterval;
 
     const clonedProducts = [...products].map(product => product.cloneNode(true));
@@ -19,10 +18,9 @@ function setupCarousel() {
     arrowRight.addEventListener("click", () => navigate("forward"));
 
     const startAutoPlay = () => {
-        if (window.innerWidth >= 768 && isAutoPlay) {
-            autoPlayInterval = setInterval(() => navigate("forward"), 1800);
-        }
+        autoPlayInterval = setInterval(() => navigate("forward"), 1000);
     };
+    
     startAutoPlay();
 
     carousel.addEventListener("mouseenter", () => {
@@ -33,14 +31,13 @@ function setupCarousel() {
         startAutoPlay();
     });
 
+
     const navigate = (direction) => {
         if (direction === "forward") {
             currentIndex++;
             if (currentIndex >= products.length) {
                 currentIndex = 0;
-                setTimeout(() => {
-                    carousel.scrollLeft = 0;
-                }, 1000); // Delay for 1 second
+                carousel.scrollLeft = 0;
             } else {
                 carousel.scrollLeft += slideWidth;
             }
@@ -48,9 +45,7 @@ function setupCarousel() {
             currentIndex--;
             if (currentIndex < 0) {
                 currentIndex = products.length - 1;
-                setTimeout(() => {
-                    carousel.scrollLeft = carousel.scrollWidth - slideWidth;
-                }, 1000); // Delay for 1 second
+                carousel.scrollLeft = carousel.scrollWidth - slideWidth;
             } else {
                 carousel.scrollLeft -= slideWidth;
             }
